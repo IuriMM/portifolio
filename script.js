@@ -1,3 +1,22 @@
+window.copyEmail = function(event) {
+  event.preventDefault();
+  navigator.clipboard.writeText('iurimauricio.maia@gmail.com').then(() => {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    if (toast && toastMessage) {
+      toastMessage.textContent = 'E-mail copiado!';
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  }).catch((err) => {
+    console.error('Failed to copy text: ', err);
+    alert('Erro ao copiar e-mail.');
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -33,8 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateDimensions() {
       // Calcula colunas e linhas levando em consideração a proporção dos caracteres monoespaçados
-      const charWidth = 5.5; // Largura média em px
-      const charHeight = 7; // Altura de linha em px
+      // Atualizado para coincidir com o font-size: 12px e line-height: 7px do CSS
+      const charWidth = 7.2; // Largura média em px para fonte 12px
+      const charHeight = 7; // Altura de linha em px (line-height)
       const fontAspect = charWidth / charHeight;
       const screenAspect = window.innerWidth / window.innerHeight;
 
@@ -48,8 +68,23 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", updateDimensions);
 
     function renderAsciiHero() {
-      if (isHeroVisible && video.readyState >= 2 && !video.paused) {
-        ctx.drawImage(video, 0, 0, cols, rows);
+      if (isHeroVisible && video.readyState >= 2) {
+        if (video.paused) video.play().catch(() => {});
+        const vW = video.videoWidth;
+        const vH = video.videoHeight;
+        if (vW && vH) {
+          const scale = Math.max(cols / vW, rows / vH);
+          const sWidth = cols / scale;
+          const sHeight = rows / scale;
+          
+          // object-position: center center
+          const sx = (vW - sWidth) / 2; 
+          const sy = (vH - sHeight) / 2;
+
+          ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, cols, rows);
+        } else {
+          ctx.drawImage(video, 0, 0, cols, rows);
+        }
         const imageData = ctx.getImageData(0, 0, cols, rows);
         const data = imageData.data;
         let asciiText = "";
@@ -204,17 +239,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const h2 = document.querySelector(".text-container h2");
   const paragraph = document.querySelector(".text-container p");
-  const headerLinks = document.querySelectorAll("header p");
+  const headerLinks = document.querySelectorAll("header p.nav-link");
+  const headerElemGlobal = document.querySelector("header");
+  const headerLogo = document.querySelector(".header-logo");
+
+  if (headerLogo && headerElemGlobal) {
+    headerLogo.addEventListener("click", () => {
+      // Toggle menu apenas em telas menores (quando o nav-link está oculto/flex-wrapped)
+      if (window.innerWidth <= 768) {
+        headerElemGlobal.classList.toggle("menu-open");
+      }
+    });
+  }
 
   // Pre-salva o texto original e habilita o hover interativo e clique para navegação no Header
   headerLinks.forEach((link) => {
-    link.dataset.originalText = link.textContent.trim();
+    const textSpan = link.querySelector(".nav-text");
+    if (textSpan) {
+      textSpan.dataset.originalText = textSpan.textContent.trim();
+    }
     link.style.cursor = "pointer";
     link.addEventListener("mouseenter", () => {
-      decryptText(link, { duration: 0.8 });
+      if (textSpan) decryptText(textSpan, { duration: 0.8 });
     });
 
     link.addEventListener("click", () => {
+      if (headerElemGlobal) headerElemGlobal.classList.remove("menu-open");
       const targetSelector = link.dataset.target;
       if (!targetSelector) return; // 'Projetos' não possui target ainda
 
@@ -265,7 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (h2) {
     h2.dataset.originalText = h2.textContent.trim();
-    h2.style.cursor = "pointer";
     h2.addEventListener("mouseenter", () => {
       decryptText(h2, { duration: 1.0 });
     });
@@ -278,7 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Função para rodar a animação de criptografia de entrada do Hero
   function playHeroEntranceDecrypt() {
     headerLinks.forEach((link, idx) => {
-      decryptText(link, { duration: 1.2, delay: idx * 0.1 });
+      const textSpan = link.querySelector(".nav-text");
+      if (textSpan) decryptText(textSpan, { duration: 1.2, delay: idx * 0.1 });
     });
     if (h2) decryptText(h2, { duration: 1.4, delay: 0.1 });
     if (paragraph) decryptText(paragraph, { duration: 1.6, delay: 0.25 });
@@ -329,26 +379,85 @@ document.addEventListener("DOMContentLoaded", () => {
   const hero = document.querySelector(".hero");
   const headerElem = document.querySelector("header");
 
-  // Timeline principal do ScrollTrigger
-  const tlScroll = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".hero-section-wrapper",
-      start: "top top",
-      end: "+=200%",
-      scrub: 1,
-      pin: true,
-      pinSpacing: true,
-      anticipatePin: 1,
-      fastScrollEnd: true,
-      onUpdate: (self) => {
-        if (!headerElem) return;
-        if (self.progress > 0.25) {
-          headerElem.classList.add("header-on-blue");
-        } else {
-          headerElem.classList.remove("header-on-blue");
-        }
+  const loremTopRight = document.querySelector(".lorem-top-right");
+  const loremBottomLeft = document.querySelector(".lorem-bottom-left");
+
+  let mm = gsap.matchMedia();
+
+  mm.add({
+    desktop: "(min-width: 769px)",
+    mobile: "(max-width: 768px)"
+  }, (context) => {
+    let { desktop, mobile } = context.conditions;
+
+    // Timeline principal do ScrollTrigger
+    const tlScroll = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".hero-section-wrapper",
+        start: "top top",
+        end: "+=200%",
+        scrub: 1,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        fastScrollEnd: true,
+        onUpdate: (self) => {
+          if (!headerElem) return;
+          if (self.progress > 0.25) {
+            headerElem.classList.add("header-on-blue");
+          } else {
+            headerElem.classList.remove("header-on-blue");
+          }
+        },
       },
-    },
+    });
+
+    // ETAPA 1: Hero encolhe
+    tlScroll.to(hero, {
+      scale: desktop ? 0.35 : 0.4,
+      duration: 1,
+      ease: "power1.inOut",
+    });
+
+    if (desktop) {
+      // ETAPA 2: Mão Esquerda ASCII (Desce da esquerda acompanhando o scroll)
+      if (asciiHandLeft) {
+        tlScroll.fromTo(
+          asciiHandLeft,
+          { xPercent: -100, yPercent: -60, rotation: -30 },
+          { xPercent: -5, yPercent: 0, rotation: 15, duration: 1, ease: "power2.out" },
+          "-=0.8",
+        );
+      }
+
+      // ETAPA 3: Mão Direita ASCII (Sobe da direita acompanhando o scroll)
+      if (asciiHandRight) {
+        tlScroll.fromTo(
+          asciiHandRight,
+          { xPercent: 100, yPercent: 60, rotation: 45 },
+          { xPercent: 5, yPercent: 0, rotation: 25, duration: 1, ease: "power2.out" },
+          "<",
+        );
+      }
+    }
+
+    if (loremTopRight) {
+      tlScroll.fromTo(
+        loremTopRight,
+        { opacity: 0, x: desktop ? 40 : 0, y: desktop ? 0 : 20 },
+        { opacity: 1, x: 0, y: 0, duration: 1, ease: "power2.out" },
+        desktop ? "-=0.8" : "-=0.5"
+      );
+    }
+
+    if (loremBottomLeft) {
+      tlScroll.fromTo(
+        loremBottomLeft,
+        { opacity: 0, x: desktop ? -40 : 0, y: desktop ? 0 : 20 },
+        { opacity: 1, x: 0, y: 0, duration: 1, ease: "power2.out" },
+        "<"
+      );
+    }
   });
 
   if (headerElem) {
@@ -388,74 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
         headerElem.classList.remove("header-on-blue");
       },
     });
-  }
-
-  // ETAPA 1: Hero encolhe
-  tlScroll.to(hero, {
-    scale: 0.3,
-    duration: 1,
-    ease: "power1.inOut",
-  });
-
-  // ETAPA 2: Mão Esquerda ASCII (Desce da esquerda acompanhando o scroll)
-  if (asciiHandLeft) {
-    tlScroll.fromTo(
-      asciiHandLeft,
-      {
-        xPercent: -100,
-        yPercent: -60,
-        rotation: -30,
-      },
-      {
-        xPercent: -5,
-        yPercent: 0,
-        rotation: 15,
-        duration: 1,
-        ease: "power2.out",
-      },
-      "-=0.8",
-    );
-  }
-
-  // ETAPA 3: Mão Direita ASCII (Sobe da direita acompanhando o scroll)
-  if (asciiHandRight) {
-    tlScroll.fromTo(
-      asciiHandRight,
-      {
-        xPercent: 100,
-        yPercent: 60,
-        rotation: 45,
-      },
-      {
-        xPercent: 5,
-        yPercent: 0,
-        rotation: 25,
-        duration: 1,
-        ease: "power2.out",
-      },
-      "<",
-    );
-  }
-
-  const loremTopRight = document.querySelector(".lorem-top-right");
-  const loremBottomLeft = document.querySelector(".lorem-bottom-left");
-
-  if (loremTopRight) {
-    tlScroll.fromTo(
-      loremTopRight,
-      { opacity: 0, x: 40 },
-      { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
-      "-=0.8"
-    );
-  }
-
-  if (loremBottomLeft) {
-    tlScroll.fromTo(
-      loremBottomLeft,
-      { opacity: 0, x: -40 },
-      { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
-      "<"
-    );
   }
 
 

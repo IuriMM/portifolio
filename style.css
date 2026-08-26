@@ -61,6 +61,7 @@ body::-webkit-scrollbar {
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
   will-change: transform;
   transform: translateZ(0);
@@ -70,6 +71,7 @@ body::-webkit-scrollbar {
   background-color: var(--bg-color-alt);
   width: 100%;
   height: 100vh;
+  height: 100svh;
   position: relative;
   z-index: 2;
   overflow: hidden;
@@ -106,13 +108,11 @@ header.header-glass {
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 4px 20px rgba(0, 0, 255, 0.08);
 }
 
 /* Vidro quando estiver sobre o fundo azul (Footer) */
 header.header-glass.header-on-blue {
   background: rgba(0, 0, 255, 0.4);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .header-logo {
@@ -132,7 +132,10 @@ header.header-glass.header-on-blue {
   display: block;
   fill: blue;
   color: blue;
-  transition: fill 0.3s ease, color 0.3s ease, transform 0.25s ease;
+  transition:
+    fill 0.3s ease,
+    color 0.3s ease,
+    transform 0.25s ease;
 }
 
 /* Quando o header está sobre seções com fundo azul */
@@ -157,7 +160,6 @@ header p {
 }
 
 header p:hover {
-  text-shadow: 0 0 10px rgba(0, 0, 255, 0.8);
   transform: translateY(-2px);
 }
 
@@ -171,9 +173,9 @@ header.header-on-blue p:hover {
 }
 
 .hero-video {
-  width: 100%;
   height: 100vh;
-  object-fit: cover;
+  height: 100svh;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -187,29 +189,24 @@ header.header-on-blue p:hover {
 }
 
 .ascii-container {
-  mix-blend-mode: normal;
   position: absolute;
+  width: fit-content;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
   font-family: var(--font-ascii);
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 900;
   line-height: 7px;
-  letter-spacing: 0.5px;
   color: blue;
   text-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   white-space: pre;
   user-select: text;
   pointer-events: none;
-  opacity: 0.95;
-  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .text-container {
@@ -218,6 +215,10 @@ header.header-on-blue p:hover {
   margin: 0 10%;
   max-width: 500px;
   pointer-events: auto;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  padding: 16px 32px;
 }
 
 .text-container h2 {
@@ -331,12 +332,20 @@ header.header-on-blue p:hover {
   transform: translateZ(0);
 }
 
+.card-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 30%;
+}
+
 .card {
   display: flex;
   flex-direction: column;
   gap: 20px;
   transform: translateZ(0);
   color: blue;
+  width: 100%;
 }
 
 #homem-sentado {
@@ -546,7 +555,8 @@ header.header-on-blue p:hover {
   margin-bottom: 12px;
 }
 
-.footer-brand p {
+.footer-brand p,
+a {
   font-size: 0.95rem;
   color: var(--text);
   max-width: 320px;
@@ -592,4 +602,167 @@ header.header-on-blue p:hover {
   margin-top: 40px;
   font-size: 0.85rem;
   color: var(--text);
+}
+
+/* =========================================
+   CUSTOM TOAST NOTIFICATION
+   ========================================= */
+.custom-toast {
+  position: fixed;
+  bottom: 30px;
+  left: -100%;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid blue;
+  color: blue;
+  font-family: var(--font-ascii);
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 255, 0.15);
+  transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.custom-toast.show {
+  left: 30px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================= */
+.nav-icon {
+  display: none;
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 768px) {
+  /* Header adjustments */
+  header {
+    padding: 5px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: all 0.3s ease;
+  }
+  header.menu-open {
+    height: auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px rgba(0, 0, 255, 0.1);
+    padding-bottom: 20px;
+  }
+  header.header-on-blue.menu-open {
+    background: rgba(0, 0, 255, 0.95);
+  }
+  .header-logo {
+    width: 100%;
+    cursor: pointer;
+    padding: 5px 0;
+  }
+  .nav-link {
+    display: none;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+  header.menu-open .nav-link {
+    display: block;
+  }
+  .nav-text {
+    display: none;
+  }
+  header.menu-open .nav-text {
+    display: inline-block;
+  }
+  .nav-icon {
+    display: none !important;
+  }
+
+  /* Hero Section */
+  .hero {
+    justify-content: flex-end;
+    padding-bottom: 40px;
+  }
+  .text-container {
+    margin: 0 5%;
+    max-width: 90%;
+  }
+  .text-container h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  .text-container p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Center ASCII container on mobile */
+  .ascii-container {
+    left: 50%;
+    transform: translateX(-50%);
+    padding-right: 0;
+  }
+
+  /* Video Backgrounds */
+  .hero-video,
+  .video-anjo-arco {
+    object-position: right center;
+  }
+
+  /* Section 2 */
+  .lorem-top-right {
+    top: 15%;
+    right: 5%;
+    left: 5%;
+    max-width: 90%;
+    text-align: left;
+  }
+  .lorem-bottom-left {
+    bottom: 15%;
+    left: 5%;
+    right: 5%;
+    max-width: 90%;
+    text-align: right;
+  }
+
+  /* Hide ASCII hands on mobile as requested */
+  .ascii-hand {
+    display: none !important;
+  }
+
+  /* Section 3 Cards */
+  .cards-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .card-column {
+    width: 100%;
+  }
+  .card {
+    width: 100%;
+  }
+
+  /* Footer */
+  .footer-top {
+    flex-direction: column;
+    gap: 20px;
+    align-items: right;
+    text-align: left;
+  }
+  .footer-brand p {
+    margin: 0 auto;
+  }
+  .footer-nav {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+  }
 }

@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iuri Maia | Full-stack Developer & IA</title>
+    <title>Iuri Maia | Full-Stack Developer & AI Scientist</title>
     <link rel="icon" href="src/eye.svg" type="image/svg+xml" />
     <meta
       name="description"
-      content="Portfólio de Iuri Maurício Maia Pereira — Desenvolvedor Full-stack (React & Python) e Pesquisador em Inteligência Artificial e Ciência de Dados."
+      content="Portfolio of Iuri Maurício Maia Pereira — Full-Stack Developer (React & Python) and Data Scientist."
     />
     <link rel="stylesheet" href="style.css" />
     <script
@@ -46,32 +46,40 @@
     <!-- Container wrapper for styling / pin control -->
     <div class="smooth-scroll-wrapper">
       <header>
-        <p data-target="#inicio">Início</p>
-        <p data-target="#sobre">Stack</p>
+        <p class="nav-link" data-target="#inicio">
+          <span class="nav-text decrypt-target">Home</span>
+        </p>
+        <p class="nav-link" data-target="#sobre">
+          <span class="nav-text decrypt-target">About</span>
+        </p>
         <div class="header-logo">
           <svg width="32" height="32" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8L3.07945 4.30466C4.29638 2.84434 6.09909 2 8 2C9.90091 2 11.7036 2.84434 12.9206 4.30466L16 8L12.9206 11.6953C11.7036 13.1557 9.90091 14 8 14C6.09909 14 4.29638 13.1557 3.07945 11.6953L0 8ZM8 11C9.65685 11 11 9.65685 11 8C11 6.34315 9.65685 5 8 5C6.34315 5 5 6.34315 5 8C5 9.65685 6.34315 11 8 11Z" fill="currentColor"/>
           </svg>
         </div>
-        <p>Projetos</p>
-        <p data-target="#contato">Contato</p>
+        <p class="nav-link">
+          <span class="nav-text decrypt-target">Projects</span>
+        </p>
+        <p class="nav-link" data-target="#contato">
+          <span class="nav-text decrypt-target">Contact</span>
+        </p>
       </header>
       <div class="hero-section-wrapper" id="inicio">
         <section class="hero">
           <video
             class="hero-video"
-            src="src/hero-animada-4.mp4"
+            src="src/hero-video-5.mp4"
             autoplay
             loop
             muted
             playsinline
-            style="display: none"
+            style="opacity: 0; pointer-events: none;"
           ></video>
           <pre class="ascii-container" id="ascii-hero"></pre>
-          <div class="text-container">
+          <div class="text-container glass">
             <h2>IURI MAIA</h2>
             <p>
-              Desenvolvedor Full-stack & Pesquisador em Inteligência Artificial. Graduando em Sistemas de Informação na UFS, especializado em React, Python (FastAPI), arquiteturas RAG com LLMs locais e Ciência de Dados.
+              Full-Stack Developer & Data Science Researcher. Information Systems undergraduate at UFS, specializing in Agentic AI.
             </p>
           </div>
         </section>
@@ -79,62 +87,66 @@
         <section class="section-2">
           <p class="lorem-top-right">
             [ FULL-STACK ]<br />
-            Aplicações web completas com React 19, TypeScript e arquitetura de APIs RESTful assíncronas em Python e MongoDB.
+            End-to-end web applications built with React 19, TypeScript, and asynchronous RESTful API architectures in Python and MongoDB.
           </p>
           <pre id="ascii-hand-left" class="img-esquerda ascii-hand"></pre>
           <pre id="ascii-hand-right" class="img-direita ascii-hand"></pre>
           <p class="lorem-bottom-left">
-            [ IA, RAG & DADOS ]<br />
-            Sistemas RAG com LLMs locais (Ollama, Qdrant), Visão Computacional com CNNs (PyTorch) e pipelines analíticos de dados.
+            [ AI, RAG & DATA ]<br />
+            RAG systems using local LLMs (Ollama, Qdrant), Computer Vision with CNNs (PyTorch), and analytical data pipelines.
           </p>
         </section>
       </div>
 
       <section class="section-3" id="sobre">
         <div class="cards-container">
-          <div class="card">
-            <h2>RAG & LLMs LOCAIS</h2>
-            <div class="filtro-azul-wrapper">
-              <img src="src/homem_livro.webp" alt="RAG & LLMs Locais" />
+          <div class="card-column">
+            <div class="card">
+              <h2>LLMs & RAG</h2>
+              <div class="filtro-azul-wrapper">
+                <img src="src/homem_livro.webp" alt="Local LLMs & RAG" />
+              </div>
+              <p>Developing systems using integration of LLMs and Vectorial Data Bases for structured data extraction and automated document generation from legal texts.</p>
             </div>
-            <p>Desenvolvimento de arquitetura RAG com LLMs locais via Ollama, LangChain e Qdrant para extração estruturada e geração automatizada de minutas a partir de textos jurídicos.</p>
+            <div class="card">
+              <h2>FULL-STACK & BACKEND</h2>
+              <div class="filtro-azul-wrapper">
+                <img src="src/homem_ensino.jpg" alt="Full-Stack and Backend Development" />
+              </div>
+              <p>Building comprehensive applications by bridging modern frontends with asynchronous RESTful Python APIs and NoSQL databases.</p>
+            </div>
           </div>
-          <div class="card">
-            <h2>WEB DEVELOPMENT</h2>
-            <div class="filtro-azul-wrapper filtro-inverter">
-              <img src="src/estatua_metade.webp" alt="Desenvolvimento Web Moderno" />
+          <div class="card-column">
+            <div class="card">
+              <h2>WEB DEVELOPMENT</h2>
+              <div class="filtro-azul-wrapper filtro-inverter">
+                <img src="src/estatua_metade.webp" alt="Modern Web Development" />
+              </div>
+              <p>Engineering modern, highly dinamic and interactive web interfaces with React 19, TypeScript and fluid animations using GSAP & Three.js.</p>
             </div>
-            <p>Desenvolvimento de interfaces web modernas e responsivas com React 19, TypeScript, TailwindCSS e animações fluidas com GSAP, Lenis e renderização ASCII interativa.</p>
+            <div class="card vision">
+              <h2>COMPUTER VISION</h2>
+              <div class="filtro-azul-wrapper filtro-inverter">
+                <img src="src/olho_nuvem.webp" alt="Computer Vision & CNNs" />
+              </div>
+              <p>Conducting research in automated diagnosis using PyTorch CNNs and developing ML models.</p>
+            </div>
           </div>
-          <div class="card">
-            <h2>CIÊNCIA DE DADOS & BI</h2>
-            <div class="filtro-azul-wrapper">
-              <img src="src/anjo_escuro.webp" alt="Ciência de Dados & BI" />
+          <div class="card-column">
+            <div class="card">
+              <h2>DATA SCIENCE & BI</h2>
+              <div class="filtro-azul-wrapper">
+                <img src="src/anjo_escuro.webp" alt="Data Science & BI" />
+              </div>
+              <p>Designing ETL pipelines in MongoDB and SQL, developing interactive analytical dashboards with Power BI and Metabase.</p>
             </div>
-            <p>Desenvolvimento de rotinas de ETL no MongoDB e SQL, painéis analíticos interativos em Power BI e Metabase, e formação prática pelo IBM Data Science Professional Certificate.</p>
-          </div>
-        </div>
-        <div class="cards-container">
-          <div class="card">
-            <h2>FULL-STACK & BACKEND</h2>
-            <div class="filtro-azul-wrapper">
-              <img src="src/homem_ensino.jpg" alt="Desenvolvimento Full-Stack e Backend" />
+            <div class="card">
+              <h2>APIs & ENGINEERING</h2>
+              <div class="filtro-azul-wrapper filtro-inverter">
+                <img src="src/homem-sentado.jpg" alt="APIs and Software Engineering" />
+              </div>
+              <p>Developing scalable APIs with FastAPI and Docker, orchestrating automated routines, and applying advanced software engineering practices with structured Git/GitHub version control.</p>
             </div>
-            <p>Construção de aplicações completas unindo frontends modernos a APIs RESTful assíncronas em Python com FastAPI, validação Pydantic, MongoDB (Motor), autenticação bcrypt e Docker.</p>
-          </div>
-          <div class="card">
-            <h2>VISÃO COMPUTACIONAL</h2>
-            <div class="filtro-azul-wrapper filtro-inverter">
-              <img src="src/olho_nuvem.webp" alt="Visão Computacional & CNNs" />
-            </div>
-            <p>Pesquisa em triagem automatizada de glaucoma com CNNs em PyTorch (JustRAIGS) e desenvolvimento do MNIST Web App com inferência client-side no navegador via ONNX e Canvas API.</p>
-          </div>
-          <div class="card">
-            <h2>APIs & ENGENHARIA</h2>
-            <div class="filtro-azul-wrapper">
-              <img src="src/homem-sentado.webp" alt="APIs e Engenharia de Software" />
-            </div>
-            <p>Construção de APIs escaláveis com FastAPI e Docker, automação de rotinas com Schedule, versionamento estruturado via Git/GitHub e práticas avançadas de engenharia de software.</p>
           </div>
         </div>
       </section>
@@ -144,28 +156,28 @@
           <div class="footer-top">
             <div class="footer-brand">
               <h2 class="decrypt-target">IURI MAIA</h2>
-              <p class="decrypt-target">Desenvolvedor Full-stack & Pesquisador em IA. Aracaju, SE — UFS Sistemas de Informação.</p>
+              <p class="decrypt-target">Full-Stack Developer & AI Researcher. Aracaju, SE — UFS Information Systems.</p>
             </div>
             <div class="footer-nav">
               <div class="footer-col">
-                <h4>Navegação</h4>
-                <p class="decrypt-target" data-target="#inicio">Início</p>
-                <p class="decrypt-target" data-target="#sobre">Sobre</p>
-                <p class="decrypt-target">Projetos</p>
-                <p class="decrypt-target" data-target="#sobre">Habilidades</p>
+                <h4>Navigation</h4>
+                <p class="decrypt-target" data-target="#inicio">Home</p>
+                <p class="decrypt-target" data-target="#sobre">About</p>
+                <p class="decrypt-target">Projects</p>
+                <p class="decrypt-target" data-target="#sobre">Skills</p>
               </div>
               <div class="footer-col">
-                <h4>Contato</h4>
-                <p class="decrypt-target">WhatsApp: (79) 98125-4489</p>
-                <p class="decrypt-target">LinkedIn</p>
-                <p class="decrypt-target">GitHub</p>
-                <p class="decrypt-target">iurimauricio.maia@gmail.com</p>
+                <h4>Contact</h4>
+                <a href="https://www.linkedin.com/in/iuri-maia-0970ba37a" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; color: inherit;"><p class="decrypt-target">LinkedIn</p></a>
+                <a href="https://github.com/IuriMM" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; color: inherit;"><p class="decrypt-target">GitHub</p></a>
+                <a href="https://www.instagram.com/_iurimauricio/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; color: inherit;"><p class="decrypt-target">Instagram</p></a>
+                <a href="mailto:iurimauricio.maia@gmail.com" style="display: block; text-decoration: none; color: inherit;"><p class="decrypt-target">iurimauricio.maia@gmail.com</p></a>
               </div>
             </div>
           </div>
           <div class="footer-bottom">
-            <p>&copy; 2026 Iuri Maurício Maia Pereira. Todos os direitos reservados.</p>
-            <p>Construído com GSAP &bull; ASCII Art &bull; UFS</p>
+            <p>&copy; 2026 Iuri Maurício Maia Pereira. All rights reserved.</p>
+            <p>Built with GSAP &bull; ASCII Art</p>
           </div>
         </div>
       </footer>
