@@ -313,13 +313,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  if (h2) {
-    h2.dataset.originalText = h2.textContent.trim();
-    h2.addEventListener("mouseenter", () => {
-      decryptText(h2, { duration: 1.0 });
-    });
-  }
-
   if (paragraph) {
     paragraph.dataset.originalText = paragraph.textContent.trim();
   }
@@ -570,9 +563,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (footerDecryptTargets.length > 0) {
     footerDecryptTargets.forEach((target) => {
       target.dataset.originalText = target.textContent.trim();
-      target.addEventListener("mouseenter", () => {
-        decryptText(target, { duration: 0.8 });
-      });
     });
 
     ScrollTrigger.create({
